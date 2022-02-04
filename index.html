@@ -583,7 +583,7 @@
   </header>
     <div class="body"></div> 
   <script type="text/javascript">
-    const link = "https://pusatwaringmurah.com/naraya/";
+    const link = "https://smooth.my.id/naraya/";
     var dbpp =
       '<table id="tt">'+
         '<thead>'+
@@ -1092,18 +1092,12 @@
       }
       return rr;
     }
-    function fr(angka, prefix){
-      var number_string = angka.replace(/[^,\d]/g, '').toString(),
-      split       = number_string.split(','),
-      sisa        = split[0].length % 3,
-      rupiah        = split[0].substr(0, sisa),
-      ribuan        = split[0].substr(sisa).match(/\d{3}/gi);
-      if(ribuan){
-        separator = sisa ? '.' : '';
-        rupiah += separator + ribuan.join('.');
-      }
-      rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-      return prefix == undefined ? rupiah : (rupiah ? 'Total Rp. ' + rupiah : '');
+    function fr(a){
+      var b = new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+      }).format(a);
+      return b
     }
     function fa(e) {
       var d = -1,
@@ -1472,9 +1466,8 @@
         type: "post",
         dataType: "JSON",
         success: function(data){
-          console.log(data)
-          for (var i = 0; i < data.length; i++) {
-            localStorage.setItem(data[i][0],data[i][1]);
+          for (a of data) {
+            localStorage.setItem(a[0],a[1]);
           }
         },
         error: error
@@ -1503,12 +1496,12 @@
         url: link + "exel.php?a=33",
         type: "post",
         dataType: "JSON",
-        success: function(d){
+        success: function(data){
           var r = 0;
-          for(var i = 0;i<d.length;i++){
-            r += parseFloat(d[i]);
+          for(a of data){
+            r += parseFloat(a);
           }
-          $('#jkk').html(fr(r.toString(),'rp.'));
+          jkk.innerHTML = fr(r)
         },
         error: error
       });
